@@ -1,0 +1,25 @@
+service:
+  name: virtual-bookshelf-api
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: us-west-2
+
+functions:
+  stellaris-insights-api-core:
+    handler: src/index.handle
+    memorySize: 128
+    description: Api for Stellaris Insights
+    environment:
+      AWS_CLIENT_KEY: '${file(./env.yml):AWS_CLIENT_KEY}'
+      AWS_CLIENT_SECRET: '${file(./env.yml):AWS_CLIENT_SECRET}'
+    events:
+      - http:
+          path: v1/index
+          method: post
